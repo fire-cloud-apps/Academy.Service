@@ -1,0 +1,13 @@
+
+*.vsidx
+.idea
+.sarif
+.vs
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+bin
+obj
+*.backup

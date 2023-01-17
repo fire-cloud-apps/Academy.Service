@@ -1,0 +1,24 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\RR210250\AppData\Local\JetBrains\Rider2022.2\resharper-host\temp\Rider\vAny\CoverageData\_Academy.Entity.119253269\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0727f8db_002Df559_002D4c69_002Dbf70_002Daa9105cc94da/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="InsertTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.UserRoleTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.UserTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Settings.AcademyTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.SchoolTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Settings.AcademyMongoTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.ModulesTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=918cc70f_002Dc1d2_002D400b_002D8c7d_002D744aaea91d30/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Insert_Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.RoleTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.SchoolTest.Insert_Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.SchoolTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.ModulesTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Management.UserTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::2B1C0C45-D170-4D36-9139-33BB2B0B9102::net6.0::Academy.Test.DataAccess.Settings.AcademyMongoTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=12a67329_002Db719_002D4ab0_002D8aec_002Dad75825539ca_0023Academy_002EEntity_002EDataAccess/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
