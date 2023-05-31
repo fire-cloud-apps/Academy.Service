@@ -19,6 +19,7 @@ public class User
     public string EmailVerfied { get; set; }
 
     public string Picture { get; set; }
+    public FileMetaData UserImage { get; set; }
     public string GivenName { get; set; }
     public string SurName { get; set; }
     public string Locale { get; set; }
@@ -40,7 +41,7 @@ public class User
     public QuickView MappedAccount { get; set; }
 
     /// <summary>
-    /// This tells us where this user is allowed to login eg. School, Store, Institute etc.
+    /// This tells us where this user is allowed to login eg. School, Store, Institute etc. Basically it should be school Id.
     /// </summary>
     public IList<string> AllowedIn { get; set; }
 
@@ -55,6 +56,16 @@ public class User
     [JsonIgnore]
     public string PasswordHash { get; set; } = string.Empty;
 
+    #region Temporary Fields
+
+    [JsonIgnore]
+    public bool IsRootUser { get; set; } = false;
+    [JsonIgnore]
+    public bool IsSuperAdmin { get; set; } = false;
+    [JsonIgnore]
+    public string DefinedRole { get; set; } = "0";
+
+    #endregion
 
 }
 

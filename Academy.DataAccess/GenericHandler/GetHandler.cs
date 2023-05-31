@@ -23,6 +23,7 @@ public class GetHandler<T> : IActionQuery<T>
         _logger = logger;
         _connString = connString;
         _dbName = dbName;
+        Console.WriteLine($"***** Get Handler(1) : Connection String {_connString} - DB Name {_dbName}");
     }
 
     public GetHandler(string connString, ILogger<object> logger)
@@ -30,6 +31,7 @@ public class GetHandler<T> : IActionQuery<T>
         _logger = logger;
         _connString = connString;
         _dbName = "Academy";
+        Console.WriteLine($"***** Get Handler(2) : Connection String {_connString} - DB Name {_dbName}");
     }
 
     private IMongoCollection<T> GetCollection<T>(string collectionName)

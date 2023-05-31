@@ -1,0 +1,33 @@
+#### localhost:7183/Management/School/ByBatch
+
+@hostname = localhost
+@port = 7183
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjYzYmQ4NWQ4ZTExODIwYTc4ODZlNjA0NSIsIkVtYWlsIjoidXNlci5hZG1pbkBmYy5jb20iLCJHaXZlbk5hbWUiOiJSaXRoaWNrIiwiQWNjb3VudElkIjoiNjNhNmRkY2IwYzQwMmYwYzExYzY2MzQ5IiwiTWFwcGVkQWNjb3VudCI6InsgXCJfaWRcIiA6IFwiNjNhNmRkY2IwYzQwMmYwYzExYzY2MzQ5XCIsIFwiTmFtZVwiIDogXCJGaXJlIENsb3VkXCIsIFwiRGVzY3JpcHRpb25cIiA6IFwiUi5SLiBEb25uZWxsZXkgaXMgYW4gQW1lcmljYW4gRm9ydHVuZSA1MDAgaW50ZWdyYXRlZCBjb21tdW5pY2F0aW9ucyBjb21wYW55IHRoYXQgcHJvdmlkZXMgbWFya2V0aW5nIGFuZCBidXNpbmVzcyBjb21tdW5pY2F0aW9ucywgY29tbWVyY2lhbCBwcmludGluZywgYW5kIHJlbGF0ZWQgc2VydmljZXMuXCIgfSIsIkFsbG93ZWRJbiI6Iiw2M2E2ZGVhMjBjNDAyZjBjMTFjNjYzNGEsNjNhNmY1MWMwYzQwMmYwYzExYzY2MzRiLDYzYTg1MDE0NzA1MzEzMDBkNDAxMmE5NyIsIklzUm9vdFVzZXIiOiJGYWxzZSIsIkRlZmluZWRSb2xlIjoiMCIsIkNsaWVudERvbWFpbiI6ImZjLm1hcmdAZmMuY29tIiwiU3VyTmFtZSI6IlNSRyIsIlBpY3R1cmUiOiJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi85Mjg4LzkyODgxNTAucG5nIiwibmJmIjoxNjgyNjA0NDM3LCJleHAiOjE2ODM4MTQwMzcsImlhdCI6MTY4MjYwNDQzN30.xqXSra6eiapty36gKAXLY4pFSVT0wKBEQ6-CFlvkg9Y
+####Ref: https://marketplace.visualstudio.com/items?itemName=MadsKristensen.RestClient
+
+
+#Post the file document
+POST https://{{host}}/Management/School/ByBatch
+Authorization:{{token}}
+Content-Type: {{contentType}}
+Accept : */*
+
+{
+    "SearchText":"",
+    "Page":1,
+    "PageSize":10,
+    "SortLabel":"Name",
+    "SearchField":"Name",
+    "SortDirection":"A",
+    "FilterParams":[],
+    "RecordCount":0
+}
+###
+###
+
+
+
+
+###

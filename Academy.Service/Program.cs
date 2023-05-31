@@ -5,6 +5,7 @@ using Serilog.Events;
 using Serilog.Sinks.Logz.Io;
 using Serilog;
 using System.Reflection;
+using Academy.Service;
 using Academy.Service.Utility;
 using Academy.Service.Utility.Authorization;
 using AutoWrapper;
@@ -22,6 +23,14 @@ var appSettings = appSettingsSection.Get<AppSettings>();
 var apiSection = builder.Configuration.GetSection("API");
 var apiSettings = apiSection.Get<API>();
 services.Configure<AppSettings>(appSettingsSection);
+
+#endregion
+
+#region DI InMemory Cache
+
+//Currently not in use.
+//Ref: https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-7.0
+//builder.Services.AddSingleton<InternalMemoryCache>();
 
 #endregion
 

@@ -22,10 +22,10 @@ public class ModuleController : ControllerBase
 {
     #region Global Variables
     
-    private readonly ILogger<GenericAPI<Module>> _logger;
+    private readonly ILogger<GenericAPI<MenuModule>> _logger;
     private readonly AppSettings _appSettings;
-    private IActionCommand<Module> _actionCommand;
-    private readonly GenericAPI<Module> _genericApi;
+    private IActionCommand<MenuModule> _actionCommand;
+    private readonly GenericAPI<MenuModule> _genericApi;
     
     #endregion
     
@@ -37,13 +37,13 @@ public class ModuleController : ControllerBase
     /// <param name="logger">Generic Logger</param>
     /// <param name="appSettings">Application Settings</param>
     public ModuleController(
-        ILogger<GenericAPI<Module>> logger,
+        ILogger<GenericAPI<MenuModule>> logger,
         IOptions<AppSettings> appSettings
     )
     {
         _appSettings = appSettings.Value;
         _logger = logger;
-        _genericApi = new GenericAPI<Module>(_logger, appSettings);
+        _genericApi = new GenericAPI<MenuModule>(_logger, appSettings);
     }
 
     #endregion
@@ -57,9 +57,9 @@ public class ModuleController : ControllerBase
     /// <returns>returns the success or failed message</returns>
     ///[AllowAnonymous]
     [HttpPost("Create")]
-    public  async Task<IActionResult> Create(Module model)
+    public  async Task<IActionResult> Create(MenuModule model)
     {
-        _actionCommand = new CreateHandler<Module>(_appSettings.DBSettings.ClientDB, _appSettings.DBSettings.DataBaseName, _logger);
+        _actionCommand = new CreateHandler<MenuModule>(_appSettings.ServiceDB.ClientURL, _appSettings.ServiceDB.DataBaseName, _logger);
         await _actionCommand.CommandHandlerAsync(model);
         return Ok(new { message = "Module Created successfully" });
     }
@@ -72,11 +72,11 @@ public class ModuleController : ControllerBase
     /// <exception cref="Exception">possible exceptions to be thrown</exception>
     //[AllowAnonymous]
     [HttpPut]
-    public async Task <IActionResult> Update(Module updateModule)
+    public async Task <IActionResult> Update(MenuModule updateModule)
     {
         #region Update Filter
         //1. Filter to update the field
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         var filter = builder.Eq(u => u.Id, updateModule.Id);
         #endregion
 
@@ -97,14 +97,14 @@ public class ModuleController : ControllerBase
     {
         #region Delete Filter
         //1. Fields to be Updated.
-        Module deleteModule = new Module();
-        var builderUpdate = Builders<Module>.Update;        
+        MenuModule deleteModule = new MenuModule();
+        var builderUpdate = Builders<MenuModule>.Update;        
         var updateFields = builderUpdate
                 .Set(u => u.IsDeleted, soft);
                 //.Set(u => u.IsActive, false);
 
         //2. Apply the Filter by Id
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         var filter = builder.Eq(u => u.Id, id);
         #endregion
 
@@ -126,12 +126,12 @@ public class ModuleController : ControllerBase
     {
         #region Set Update Filter
         //1. Fields to be Updated.
-        Module acivationModule = new Module();
-        var builderUpdate = Builders<Module>.Update;
+        MenuModule acivationModule = new MenuModule();
+        var builderUpdate = Builders<MenuModule>.Update;
         var updateFields = builderUpdate
                 .Set(u => u.IsActive, activate);
         //2. Apply the Update Filter by ID.
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         var filter = builder.Eq(u => u.Id, id);
         #endregion
 
@@ -157,12 +157,12 @@ public class ModuleController : ControllerBase
     {
         #region Set Update Filter
         //1. Fields to be Updated.
-        Module deleteModule = new Module();
-        var builderUpdate = Builders<Module>.Update;
+        MenuModule deleteModule = new MenuModule();
+        var builderUpdate = Builders<MenuModule>.Update;
         var updateFields = builderUpdate
             .Set(u => u.IsDeleted, delete);
         //2. Apply the Update Filter by ID.
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         var filter = builder.Eq(u => u.Id, id);
         #endregion
 
@@ -193,7 +193,7 @@ public class ModuleController : ControllerBase
     public async Task<IActionResult> GetById(string id)
     {
         #region Filter by ID
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         // Filter by field
         var idFilter = builder.Eq(u => u.Id, id);
         #endregion
@@ -210,7 +210,7 @@ public class ModuleController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         #region No Filter
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         // Filter by field
         var noFilter = builder.Empty;
 
@@ -231,11 +231,11 @@ public class ModuleController : ControllerBase
     public async Task<IActionResult> GetBatch(PageMetaData metaData)
     {        
         #region Filter & Sort
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         // Filter by field
         var filters = BuildFilter(builder, metaData);
         //Sort
-        var sort = Builders<Module>.Sort.Ascending(u => u.Name);
+        var sort = Builders<MenuModule>.Sort.Ascending(u => u.Name);
         sort = BuildSort(sort, metaData);
         //Pagination
         var pagination = new Pagination()
@@ -247,7 +247,7 @@ public class ModuleController : ControllerBase
 
         var result = await _genericApi.GetFilter(filters, sort: sort, pagination: pagination);
         
-        BatchResult<Module> batchResult = new BatchResult<Module>()
+        BatchResult<MenuModule> batchResult = new BatchResult<MenuModule>()
         {
             Items = result,
             TotalItems = await _genericApi.GetRecordCount(filters)
@@ -263,7 +263,7 @@ public class ModuleController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetCount()
     {
-        var builder = Builders<Module>.Filter;
+        var builder = Builders<MenuModule>.Filter;
         var isDeletedFilters = builder.Eq(u => u.IsDeleted, false);
         var result = await _genericApi.GetRecordCount(isDeletedFilters);
         return Ok(result);
@@ -277,12 +277,12 @@ public class ModuleController : ControllerBase
     /// <param name="builder">filter builder</param>
     /// <param name="metaData">meta data to perform filter</param>
     /// <returns>returns filter query</returns>
-    private static FilterDefinition<Module> BuildFilter(FilterDefinitionBuilder<Module> builder, PageMetaData metaData)
+    private static FilterDefinition<MenuModule> BuildFilter(FilterDefinitionBuilder<MenuModule> builder, PageMetaData metaData)
     {
         var field = metaData.SearchField;
         var filterBuilder = builder.Empty;
         var ignoreIsDeleted = false;
-        IList<FilterDefinition<Module>> filterLists = new List<FilterDefinition<Module>>();
+        IList<FilterDefinition<MenuModule>> filterLists = new List<FilterDefinition<MenuModule>>();
 
         #region Primary Condition Filter
 
@@ -350,9 +350,9 @@ public class ModuleController : ControllerBase
     /// <param name="sorting">performs sort definition</param>
     /// <param name="metaData">meta data to perform sorting</param>
     /// <returns>returns sort query</returns>
-    private static SortDefinition<Module> BuildSort(SortDefinition<Module> sorting, PageMetaData metaData)
+    private static SortDefinition<MenuModule> BuildSort(SortDefinition<MenuModule> sorting, PageMetaData metaData)
     { 
-        SortDefinition<Module> sort;
+        SortDefinition<MenuModule> sort;
         var field = metaData.SortLabel;
         sort = field switch
         {
@@ -378,7 +378,7 @@ public class ModuleController : ControllerBase
     [AllowAnonymous]
     [HttpGet]
     [Route("FakeData")]
-    public async Task<ActionResult<Module>> FakeData()
+    public async Task<ActionResult<MenuModule>> FakeData()
     {
         ModulesFaker faker = new ModulesFaker();
         var fake = faker.GenerateData();

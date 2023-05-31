@@ -11,3 +11,5 @@
 bin
 obj
 *.backup
+*.txt
+*.bookmark

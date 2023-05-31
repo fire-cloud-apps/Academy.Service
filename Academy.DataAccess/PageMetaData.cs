@@ -8,7 +8,7 @@ public class PageMetaData : Pagination
     /// <summary>
     /// Server Side Search for the fixed fields.
     /// </summary>
-    public string SearchText { get; set; }
+    public string SearchText { get; set; } = string.Empty;
     
     /// <summary>
     /// Field Name to sort

@@ -1,7 +1,6 @@
 ﻿using Academy.DataAccess;
 using Academy.DataAccess.GenericHandler;
 using Academy.DataAccess.Interface;
-using Academy.DataAccess.Management.UserHandler;
 using Academy.Entity.DataBogus.Management;
 using Academy.Entity.DataBogus.Settings;
 using Academy.Entity.Management;

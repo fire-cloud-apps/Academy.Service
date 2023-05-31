@@ -10,25 +10,26 @@ public class UserRoleFaker : IGenerateFake <UserRole>
         #region Faker
         var bogusData = new Faker<UserRole>()
             .RuleFor(u => u.Name, f => f.Person.FullName)
-            
             .RuleFor(u => u.Description, f => f.Person.UserName)
-            .RuleFor(u => u.AllowedModules, new PermissionFaker().GenerateData().Generate(5));
+            .RuleFor(u => u.AllowedModules, new ModuleFaker().GenerateData().Generate(5));
         #endregion
 
         return bogusData;
     }
 }
 
-public class PermissionFaker : IGenerateFake <Permissions>
+public class ModuleFaker : IGenerateFake <ModulePermission>
 {
-    public Faker<Permissions> GenerateData()
+    public Faker<ModulePermission> GenerateData()
     {
         #region Faker
-        var bogusData = new Faker<Permissions>()
-            .RuleFor(u => u.AllowedModule,  new  ModulesFaker().GenerateData().Generate(1).FirstOrDefault())
-            
-            .RuleFor(u => u.CanRead, f => f.Random.Bool())
-            .RuleFor(u => u.CanWrite, f => f.Random.Bool());
+        var bogusData = new Faker<ModulePermission>()
+            .RuleFor(u => u.Name, f => f.Database.Column())
+            .RuleFor(u => u.Description, f => f.Lorem.Lines(2))
+            .RuleFor(u => u.IconKey, "Config")
+            .RuleFor(u => u.Read, f => f.Random.Bool())
+            .RuleFor(u => u.Delete, f => f.Random.Bool())
+            .RuleFor(u => u.Modify, f => f.Random.Bool());
         #endregion
 
         return bogusData;

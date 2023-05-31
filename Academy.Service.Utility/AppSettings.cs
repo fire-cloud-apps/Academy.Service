@@ -5,7 +5,8 @@ namespace Academy.Service.Utility;
 public class AppSettings
 {
     public string Secret { get; set; }    
-    public DBSettings DBSettings { get; set; }
+    public DBSettings ServiceDB { get; set; }
+    public DBSettings AuthDB { get; set; }
     public JWTSettings JWTSettings { get; set; }
 }
 
@@ -38,7 +39,10 @@ public class JWTSettings
 }
 public class DBSettings
 {
-    public string ClientDB { get; set; }
+    /// <summary>
+    /// Client connection string
+    /// </summary>
+    public string ClientURL { get; set; }
     public string DataBaseName { get; set; }
-    public string CollectionName { get; set; }
+    //public string CollectionName { get; set; }
 }

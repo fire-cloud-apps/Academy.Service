@@ -12,10 +12,10 @@ public class SchoolFaker : IGenerateFake <School>
         #region Faker
         var bogusData = new Faker<School>()
                 .RuleFor(u => u.Name, f => f.Person.FullName)
-                .RuleFor(u => u.RegistrationId, f => f.Random.Replace("###-????-?##?**##"))
+                .RuleFor(u => u.RegistrationNo, f => f.Random.Replace("###-????-?##?**##"))
                 .RuleFor(u => u.FoundedOn, f => f.Date.Between(new DateTime(1900, 01, 01), DateTime.Now))
             
-                .RuleFor(u => u.Address, f=> new ContactFaker().GenerateData().Generate(1).FirstOrDefault() )
+                //.RuleFor(u => u.Address, f=> new ContactFaker().GenerateData().Generate(1).FirstOrDefault() )
                 //.RuleFor(u => u.Logo, f => new FileDocumentFaker().GenerateData().Generate(1).FirstOrDefault())
                 //.RuleFor(u => u.FavIcon, f => new FileDocumentFaker().GenerateData().Generate(1).FirstOrDefault())
                 //.RuleFor(u => u.Attachments, f => new FileDocumentFaker().GenerateData().Generate(2))
@@ -26,8 +26,8 @@ public class SchoolFaker : IGenerateFake <School>
                 .RuleFor(u => u.TotalFees, f => f.Random.Double(10000, 150000))
                 .RuleFor(u => u.TotalDues, f => f.Random.Double(5000, 50000))
 
-                .RuleFor(u => u.HeadOfSchool, f=> new PrincipalFaker().GenerateData().Generate(1).FirstOrDefault())
-                .RuleFor(u => u.Academy, f=> new AcademyFaker().GenerateData().Generate(1).FirstOrDefault())
+                .RuleFor(u => u.Principal, f=> new QuickViewFaker().GenerateData().Generate(1).FirstOrDefault())
+                .RuleFor(u => u.AcademyYear, f=> new QuickViewFaker().GenerateData().Generate(1).FirstOrDefault())
                 
                 .RuleFor(u => u.AccountId, f => "")
                 .RuleFor(u => u.EnteredBy, f => "")

@@ -34,10 +34,10 @@ public class ModulesTest
         string processesName = "Insert Module";
         using (_profiler.Step(processesName))
         {
-            IActionCommand<Module> command = new CreateHandler<Module>
+            IActionCommand<MenuModule> command = new CreateHandler<MenuModule>
             (_dbPath,
                 _logger);
-            Module model = new ModulesFaker().GenerateData();
+            MenuModule model = new ModulesFaker().GenerateData();
             model = await command.CommandHandlerAsync(model);
             if (command.IsError)
             {
@@ -58,10 +58,10 @@ public class ModulesTest
         #region Insert
 
         string processesName = "DML Insert Test - Module";
-        Module model;
+        MenuModule model;
         using (_profiler.Step(processesName))
         {
-            IActionCommand<Module> command = new CreateHandler<Module>
+            IActionCommand<MenuModule> command = new CreateHandler<MenuModule>
                 (_dbPath, _logger);
             model = new ModulesFaker().GenerateData().Generate();
             model = await command.CommandHandlerAsync(model);
@@ -83,11 +83,11 @@ public class ModulesTest
         processesName = "DML Update Test - Module";
         using (_profiler.Step(processesName))
         {
-            IActionCommand<Module> command = new UpdateHandler<Module>
+            IActionCommand<MenuModule> command = new UpdateHandler<MenuModule>
                 (_dbPath, _logger);
             var upModel = new ModulesFaker().GenerateData().Generate();
             //Update filter
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             var filter = builder.Eq(u => u.Id, model.Id);
             upModel.Id = model.Id; 
             upModel = await command.CommandHandlerAsync(filter, upModel);
@@ -108,15 +108,15 @@ public class ModulesTest
         processesName = "DML Soft Delete Test - Module";
         using (_profiler.Step(processesName))
         {
-            IActionCommand<Module> command = new DeleteHandler<Module>
+            IActionCommand<MenuModule> command = new DeleteHandler<MenuModule>
                 (_dbPath, _logger, true);
             
             //Soft Delete update 'IsDeleted = true'
-            var builderUpdate = Builders<Module>.Update;
+            var builderUpdate = Builders<MenuModule>.Update;
             var updateFields = builderUpdate.Set(u => u.IsDeleted, true);
             
             //Soft Delete filter
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             var filter = builder.Eq(u => u.Id, model.Id);
 
             var softModel = await command.CommandHandlerAsync(filter, updateFields, model);
@@ -138,11 +138,11 @@ public class ModulesTest
         processesName = "DML Hard Delete Test - Module";
         using (_profiler.Step(processesName))
         {
-            IActionCommand<Module> command = new DeleteHandler<Module>
+            IActionCommand<MenuModule> command = new DeleteHandler<MenuModule>
                 (_dbPath, _logger, false);
 
             //Hard Delete filter
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             var filter = builder.Eq(u => u.Id, model.Id);
 
             var softModel = await command.CommandHandlerAsync(filter, null, model);
@@ -170,17 +170,17 @@ public class ModulesTest
         string processesName = "Find the Module by Id";
         using (_profiler.Step(processesName))
         {
-            IActionQuery<Module> getDocument = new GetHandler<Module>
+            IActionQuery<MenuModule> getDocument = new GetHandler<MenuModule>
                 (_dbPath, _logger);
 
             #region Filter by ID
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             // Filter by field
             var idFilter = builder.Eq(u => u.Id, MongoDB.Bson.ObjectId.Parse(id));
             #endregion
 
             #region  Sort
-            var sort = Builders<Module>.Sort.Ascending(a => a.Id);
+            var sort = Builders<MenuModule>.Sort.Ascending(a => a.Id);
             #endregion
             
             var model = await getDocument.GetHandlerAsync(idFilter, null, null);
@@ -205,10 +205,10 @@ public class ModulesTest
         string processesName = "Compare with 'IN', a full text compare.";
         using (_profiler.Step(processesName))
         {
-            IActionQuery<Module> getCommand = new GetHandler<Module>
+            IActionQuery<MenuModule> getCommand = new GetHandler<MenuModule>
                 (_dbPath, _logger);
             #region Filter
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             // Filter by field with list of desired values
             var nameListFilter = builder.In(u => u.IsActive, new[] { true, false });
             #endregion
@@ -235,10 +235,10 @@ public class ModulesTest
         string processesName = "Regex Filter.";
         using (_profiler.Step(processesName))
         {
-            IActionQuery<Module> getCommand = new GetHandler<Module>
+            IActionQuery<MenuModule> getCommand = new GetHandler<MenuModule>
                 (_dbPath, _logger);
             #region Regex Filter
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             var pattern = new BsonRegularExpression("Notify", "i"); //"i" Indicates case insensitive.
             // Filter the student who's name contains "Casper".
             var regexFilter = builder.Regex(u => u.Name, pattern);
@@ -266,10 +266,10 @@ public class ModulesTest
         string processesName = "No Filter.";
         using (_profiler.Step(processesName))
         {
-            IActionQuery<Module> getCommand = new GetHandler<Module>
+            IActionQuery<MenuModule> getCommand = new GetHandler<MenuModule>
                 (_dbPath, _logger);
             #region No Filter
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             var noFilter = builder.Empty;
             #endregion
 
@@ -297,15 +297,15 @@ public class ModulesTest
         string processesName = "Pagination Test";
         using (_profiler.Step(processesName))
         {
-            IActionQuery<Module> getCommand = new GetHandler<Module>
+            IActionQuery<MenuModule> getCommand = new GetHandler<MenuModule>
                 (_dbPath, _logger);
             #region No Filter
-            var builder = Builders<Module>.Filter;
+            var builder = Builders<MenuModule>.Filter;
             var noFilter = builder.Empty;
             #endregion
             
             //Sorting
-            var sort = Builders<Module>.Sort
+            var sort = Builders<MenuModule>.Sort
                 .Ascending(u => u.Name)
                 .Descending(u => u.IsActive);
 

@@ -1,7 +1,11 @@
 ﻿using Academy.DataAccess;
 using Academy.DataAccess.GenericHandler;
 using Academy.DataAccess.Interface;
+using Academy.Entity.Management;
 using Academy.Service.Utility;
+using Academy.Service.Utility.Authorization;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -15,7 +19,7 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
 {
     #region Global Variables
     private readonly ILogger<object> _logger;
-    private readonly AppSettings _appSettings;
+    private readonly DBSettings _dbSettings;
     private IActionCommand<T> _actionCommand;
     private IActionQuery<T> _getCommand;
     #endregion
@@ -23,7 +27,7 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
     #region Constructor
    
     /// <summary>
-    /// 
+    /// Generic API Constructor, by default it uses 'ServiceDB' from AppSettings
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="appSettings"></param>
@@ -33,12 +37,26 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
         IOptions<AppSettings> appSettings
     )
     {
-        _appSettings = appSettings.Value;
+        _dbSettings = appSettings.Value.ServiceDB;//By default it uses DB Service DB as connection string.
         _logger = logger;
-        
     }
-    #endregion
+    /// <summary>
+    /// Generic API Constructor with Custom DB settings
+    /// </summary>
+    /// <param name="logger"></param>
+    /// <param name="dBSettings">to send the custom db settings directly from controller</param>
+    public GenericAPI
+    (
+        ILogger<object> logger,
+        DBSettings dBSettings
+    )
+    {
+        _dbSettings = dBSettings; // We can use either 'appSettings.Value.AuthDB' or custom setting, considering future change we have set to use 'dbSettings';
+        _logger = logger;
+    }
     
+    #endregion
+        
     #region CRUD
 
     /// <summary>
@@ -48,14 +66,15 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
     /// <returns>return's the result</returns>
     public async Task<T> Create(T model)
     {
+        
         _actionCommand = new CreateHandler<T>(
-            _appSettings.DBSettings.ClientDB, 
-            _appSettings.DBSettings.DataBaseName, 
+            _dbSettings.ClientURL, 
+            _dbSettings.DataBaseName, 
             _logger);
         var returnModel = await _actionCommand.CommandHandlerAsync(model);
-        return ResultHandler(_actionCommand, returnModel);      
+        return ResultHandler(_actionCommand, returnModel);
     }
-    
+   
     /// <summary>
     /// Generic Update Handler
     /// </summary>
@@ -65,8 +84,8 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
     public async Task<T> Update(T model, FilterDefinition<T> filter)
     {
         _actionCommand = new UpdateHandler<T>(
-            _appSettings.DBSettings.ClientDB, 
-            _appSettings.DBSettings.DataBaseName, 
+            _dbSettings.ClientURL, 
+            _dbSettings.DataBaseName, 
             _logger);
         var returnModel = await _actionCommand.CommandHandlerAsync(filter, model);
         return ResultHandler(_actionCommand, returnModel);        
@@ -77,8 +96,8 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
         FilterDefinition<T> filter)
     {
         _actionCommand = new UpdatePartialHandler<T>(
-            _appSettings.DBSettings.ClientDB, 
-            _appSettings.DBSettings.DataBaseName, 
+            _dbSettings.ClientURL, 
+            _dbSettings.DataBaseName, 
             _logger);
         var returnModel = await _actionCommand.CommandHandlerAsync(filter, updateFilter, model);
         return ResultHandler(_actionCommand, returnModel);
@@ -99,7 +118,7 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
         bool soft = true)
     {
         _actionCommand = new DeleteHandler<T>
-            (_appSettings.DBSettings.ClientDB, _appSettings.DBSettings.DataBaseName, _logger, soft);
+            (_dbSettings.ClientURL, _dbSettings.DataBaseName, _logger, soft);
         var returnModel = await _actionCommand.CommandHandlerAsync(filter, updateFilter, model);
         
         return ResultHandler(_actionCommand, returnModel);
@@ -120,8 +139,8 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
     {
         _getCommand = new GetHandler<T>
         (
-            connString: _appSettings.DBSettings.ClientDB,
-            _appSettings.DBSettings.DataBaseName,
+            connString: _dbSettings.ClientURL,
+            _dbSettings.DataBaseName,
             _logger
         );
         
@@ -149,8 +168,8 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
     {
         _getCommand = new GetHandler<T>
         (
-            connString: _appSettings.DBSettings.ClientDB,
-            _appSettings.DBSettings.DataBaseName,
+            connString: _dbSettings.ClientURL,
+            _dbSettings.DataBaseName,
             _logger
         );
 
@@ -184,17 +203,16 @@ public class GenericAPI<T> : IGenericAPI<T> where T : class
     {
         _getCommand = new GetDocumentCount<T>
         (
-            connString: _appSettings.DBSettings.ClientDB,
-            _appSettings.DBSettings.DataBaseName,
+            connString: _dbSettings.ClientURL,
+            _dbSettings.DataBaseName,
             _logger
         );
-        var count = await _getCommand .GetCountAsync(filter);
+        var count = await _getCommand.GetCountAsync(filter);
         return ResultHandler(_getCommand, count);
     }
 
     #endregion
 }
-
 
 
 public interface IGenericAPI<T> where T : class
@@ -204,12 +222,8 @@ public interface IGenericAPI<T> where T : class
     Task<T> UpdatePartial(T model, UpdateDefinition<T> updateFilter, FilterDefinition<T> filter);
     Task<T> Delete(T model, UpdateDefinition<T> updateFilter, FilterDefinition<T> filter, bool soft = true);
     Task<IList<T>> GetFilter(FilterDefinition<T> filter,
-        SortDefinition<T> sort = null, Pagination pagination = null);
+        SortDefinition<T> sort = null, Pagination pagination = null);    
     Task<IList<T>> GetProjectFilter(FilterDefinition<T> filter, 
         ProjectionDefinition<T> project, SortDefinition<T> sort = null, Pagination pagination = null);
     Task<long> GetRecordCount(FilterDefinition<T> filter);
-    //Task<T> Find(FilterDefinition<T> filter);
-    //Task<T> FindOne(FilterDefinition<T> filter);
-    //Task<T> FindOneAndUpdate(FilterDefinition<T> filter, UpdateDefinition<T> updateFilter, bool isUpsert);
-    //Task<T> FindOneAndDelete(FilterDefinition<T> filter);
 }

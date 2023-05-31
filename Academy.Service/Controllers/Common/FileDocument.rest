@@ -1,0 +1,136 @@
+﻿@hostname = localhost
+@port = 7183
+@host = {{hostname}}:{{port}}
+@contentType = application/json
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjYzYmQ4NTUxZTExODIwYTc4ODZlNjAzZSIsIkVtYWlsIjoic2Nob29sLmFkbWluQGZjLmNvbSIsIkdpdmVuTmFtZSI6IkFsYW1lbHUiLCJBY2NvdW50SWQiOiI2M2E2ZGRjYjBjNDAyZjBjMTFjNjYzNDkiLCJNYXBwZWRBY2NvdW50IjoieyBcIl9pZFwiIDogXCI2M2E2ZGRjYjBjNDAyZjBjMTFjNjYzNDlcIiwgXCJOYW1lXCIgOiBcIkZpcmUgQ2xvdWRcIiwgXCJEZXNjcmlwdGlvblwiIDogXCJSLlIuIERvbm5lbGxleSBpcyBhbiBBbWVyaWNhbiBGb3J0dW5lIDUwMCBpbnRlZ3JhdGVkIGNvbW11bmljYXRpb25zIGNvbXBhbnkgdGhhdCBwcm92aWRlcyBtYXJrZXRpbmcgYW5kIGJ1c2luZXNzIGNvbW11bmljYXRpb25zLCBjb21tZXJjaWFsIHByaW50aW5nLCBhbmQgcmVsYXRlZCBzZXJ2aWNlcy5cIiB9IiwiQWxsb3dlZEluIjoiLDY0MjVhNTc5ZWUyZWNlODI1MjUxZjk1MSIsIklzUm9vdFVzZXIiOiJGYWxzZSIsIkRlZmluZWRSb2xlIjoiMCIsIkNsaWVudERvbWFpbiI6ImZjLm1hcmdAZmMuY29tIiwiU3VyTmFtZSI6IlNSRyIsIlBpY3R1cmUiOiJodHRwczovL2ZjLWRlbW8tczMtc3RvcmFnZS5zMy5hcC1zb3V0aC0xLmFtYXpvbmF3cy5jb20vdXNlci9wbmcvNzg2MGNkZDEtOWI4MC00ZDBjLTg3NzQtNzgzNjQ0OGU0YmRkLnBuZyIsIm5iZiI6MTY4MzU1Nzc5NSwiZXhwIjoxNjg0NzY3Mzk1LCJpYXQiOjE2ODM1NTc3OTV9.twMEEQ11tL6ufT9v3cMjI7u-z-3aZ6Py_z5Y2dCQ158
+
+@editId = 643b8350ac1732c29ae237cf
+#Ref: https://marketplace.visualstudio.com/items?itemName=MadsKristensen.RestClient
+
+#1. GET the document by Id
+GET https://{{host}}/Common/FileDocument/Details/{{editId}}
+Content-Type:{{contentType}}
+Authorization:{{token}}
+###
+
+#2.GET All Documents
+GET https://{{host}}/Common/FileDocument
+Content-Type:{{contentType}}
+Authorization:{{token}}
+###
+
+#3.GET the document by Batch
+POST https://{{host}}/Common/FileDocument/ByBatch
+Content-Type:{{contentType}}
+Authorization:{{token}}
+
+{
+    "SearchText":"",
+    "Page":1,
+    "PageSize":10,
+    "SortLabel":"Name",
+    "SearchField":"Name","SortDirection":"A",
+    "FilterParams":[],
+    "RecordCount":0
+}
+###
+
+#3.1.GET the document By Batch (based on Ids)
+POST https://{{host}}/Common/FileDocument/ByBatch
+Content-Type:{{contentType}}
+Authorization:{{token}}
+
+{
+    "SearchText":"6459fb020d7864a17f141421,6459fb080d7864a17f141423",
+    "Page":1,
+    "PageSize":10,
+    "SortLabel":"Name",
+    "SearchField":"Ids",
+    "SortDirection":"A",
+    "FilterParams":[],
+    "RecordCount":0
+}
+### End of Request
+
+
+
+#3.2.GET the document By Batch (based on Modules)
+POST https://{{host}}/Common/FileDocument/ByBatch
+Content-Type:{{contentType}}
+Authorization:{{token}}
+
+{
+    "SearchText":"Admission",
+    "Page":1,
+    "PageSize":10,
+    "SortLabel":"Name",
+    "SearchField":"Module",
+    "SortDirection":"A",
+    "FilterParams":[],
+    "RecordCount":0
+}
+### End of Request
+
+#3.3.GET Occupied Storate size for the account
+GET https://{{host}}/Common/FileDocument/StorageSize
+Content-Type:{{contentType}}
+Authorization:{{token}}
+
+### End of Request
+
+#3.4.GET the document By Batch (based on Associated With)
+POST https://{{host}}/Common/FileDocument/ByBatch
+Content-Type:{{contentType}}
+Authorization:{{token}}
+
+{
+    "SearchText":"6425a579ee2ece825251f951",
+    "Page":1,
+    "PageSize":10,
+    "SortLabel":"Name",
+    "SearchField":"AssociatedWith",
+    "SortDirection":"A",
+    "FilterParams":[],
+    "RecordCount":0
+}
+### End of Request
+
+
+#4. GET Count
+GET https://{{host}}/Common/FileDocument/Count
+Content-Type:{{contentType}}
+Authorization:{{token}}
+
+
+#5.POST Create the File in the MongoDB
+POST https://{{host}}/Common/FileDocument/Create
+Content-Type:{{contentType}}
+Authorization:{{token}}
+
+{
+    "fileId": "233bebc6-d7b7-45b3-9df1-0199822f1561",
+    "name": "233bebc6-d7b7-45b3-9df1-0199822f1561.png",
+    "folderStructure": "account/png",
+    "fileKey": "account/png/233bebc6-d7b7-45b3-9df1-0199822f1561.png",
+    "clientName": "fc-demo-s3-storage",
+    "moduleName": "account",
+    "extension": "png",
+    "dynamicName": true,
+    "s3URL": "https://fc-demo-s3-storage.s3.ap-south-1.amazonaws.com/account/png/233bebc6-d7b7-45b3-9df1-0199822f1561.png",
+    "fileSize": 308802,
+    "fileSizeSuffix": "301.6 KB",
+    "accesssType": 0,
+    "isJunk": true,
+    "uploadStatus": true,
+    "isActive":true,
+    "isDeleted":false
+  }
+###
+
+#POST Test the file is junk or not a junk
+PUT https://{{host}}/Common/FileDocument/Junk/{{editId}}?isJunk=false
+Content-Type:{{contentType}}
+Authorization:{{token}}
+###
+
+

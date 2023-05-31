@@ -6,6 +6,7 @@ using Academy.Entity.Management;
 using Academy.Service.Utility;
 using Academy.Service.Utility.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -20,13 +21,11 @@ namespace Academy.Service.Controllers.Management;
 [Route("Management/[controller]")]
 public class UserRoleController : ControllerBase
 {
-    #region Global Variables
-    
+    #region Global Variables    
     private readonly ILogger<GenericAPI<UserRole>> _logger;
     private readonly AppSettings _appSettings;
     private IActionCommand<UserRole> _actionCommand;
     private readonly GenericAPI<UserRole> _genericApi;
-    
     #endregion
     
     #region Constructor
@@ -47,7 +46,7 @@ public class UserRoleController : ControllerBase
     }
 
     #endregion
-
+    
     #region DML Actions
 
     /// <summary>
@@ -59,8 +58,9 @@ public class UserRoleController : ControllerBase
     [HttpPost("Create")]
     public  async Task<IActionResult> Create(UserRole model)
     {
-        _actionCommand = new CreateHandler<UserRole>(_appSettings.DBSettings.ClientDB, _appSettings.DBSettings.DataBaseName, _logger);
+        _actionCommand = new CreateHandler<UserRole>(_appSettings.ServiceDB.ClientURL, _appSettings.ServiceDB.DataBaseName, _logger);
         await _actionCommand.CommandHandlerAsync(model);
+        
         return Ok(new { message = "UserRole Created successfully" });
     }
 
@@ -69,7 +69,7 @@ public class UserRoleController : ControllerBase
     /// </summary>    
     /// <param name="updateUserRole">the new data to be updated</param>
     /// <returns>returns updated "UserRole". </returns>
-    /// <exception cref="Exception">possible exceptions to be thrown</exception>
+    /// <exception cref="Exception">Possible exceptions to be thrown</exception>
     //[AllowAnonymous]
     [HttpPut]
     public async Task <IActionResult> Update(UserRole updateUserRole)

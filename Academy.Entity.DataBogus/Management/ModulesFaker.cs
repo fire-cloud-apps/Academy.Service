@@ -4,9 +4,9 @@ using Bogus;
 
 namespace Academy.Entity.DataBogus.Management;
 
-public class ModulesFaker :IGenerateFake <Module>
+public class ModulesFaker :IGenerateFake <MenuModule>
 {
-    public Faker<Module> GenerateData()
+    public Faker<MenuModule> GenerateData()
     {
         #region Document Faker
 
@@ -16,7 +16,7 @@ public class ModulesFaker :IGenerateFake <Module>
             "Examination", "Attendance", "Timetable", "Fees", "Reports", "Settings",
             "Transport", "Library", "Downloads", "Import", "Export", "Notify", "Purchase", "HR", "Visitor"
         };
-        var bogusModules = new Faker<Module>()
+        var bogusModules = new Faker<MenuModule>()
             .RuleFor(u => u.Name, f => f.PickRandom(moduleTypes))
             .RuleFor(u => u.Description, 
                 f => f.Lorem.Lines(2));

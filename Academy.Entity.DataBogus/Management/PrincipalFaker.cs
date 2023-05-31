@@ -18,4 +18,21 @@ public class PrincipalFaker : IGenerateFake <Principal>
 
         return bogusPrincipal;
     }
+
+    
+}
+
+public class QuickViewFaker : IGenerateFake<QuickView>
+{
+    public Faker<QuickView> GenerateData()
+    {
+        #region Faker Rules
+        var bogusFaker = new Faker<QuickView>()
+            .RuleFor(u => u.Name, f => f.Person.FullName)
+            .RuleFor(u => u.Description, f=> f.Person.Website);
+        #endregion
+
+        return bogusFaker;
+    }
+
 }
